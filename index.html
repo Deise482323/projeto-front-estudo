@@ -2,22 +2,25 @@
 <html>
 
 <body>
-    <label>Cadastro de Pessoa</label><br><br>
-    <input id="sexo" type="text" name="sexo" placeholder="sexo"><br><br>
-    <input id="idade" type="number" name="idade" placeholder="Idade"><br><br>
-    <button onclick="salvar()">Salvar</button>
+    <label>Consulta de Conta </label><br><br>
+    <input id="cpf" type="text" name="cpf" placeholder="cpf"><br><br>
+    <p id="retorno"></p>
+    <button onclick="buscar()">Buscar</button>
 
 
 </body>
 <script>
-
-
-    function salvar() {
-        var sexo = document.getElementById('sexo').value;
-        var idade = document.getElementById('idade').value;
-
+    function buscar() {
+        var cpf = document.getElementById('cpf').value;
         var conexao = new XMLHttpRequest();
-        conexao.open('GET', 'http://localhost:8080/' + idade + '/' + sexo);
+        conexao.onreadystatechange = function() {
+            if (conexao.readyState === XMLHttpRequest.DONE) {
+                var tag_id = document.getElementById('retorno');
+                tag_id.innerHTML = conexao.responseText;
+                console.log(conexao.responseText);
+            }
+        }
+        conexao.open('GET', 'http://localhost:8080/cpf/' + cpf  );
         conexao.setRequestHeader('Content-Type', 'application/json');
         conexao.send();
 
